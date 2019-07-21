@@ -1,0 +1,22 @@
+{
+  "name": "aws-poc",
+  "version": "1.0.0",
+  "description": "SQS S3 SNS Lambda DynamoDB POC",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mukesh23singh/aws-poc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mukesh23singh/aws-poc/issues"
+  },
+  "homepage": "https://github.com/Mukesh23singh/aws-poc#readme",
+  "dependencies": {
+    "aws-sdk": "^2.496.0"
+  }
+}

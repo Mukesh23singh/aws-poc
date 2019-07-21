@@ -18,17 +18,14 @@
 
 // Load the AWS SDK for Node.js
 var AWS = require('aws-sdk');
-// Set the region 
-AWS.config.update({
-    region: 'REGION'
-});
-
+var fs = require('fs');
+AWS.config.loadFromPath('/Users/mukesh/.aws/config.json');
 // Create the SQS service object
-var sqs = new AWS.SQS({
-    apiVersion: '2012-11-05'
-});
-
-var queueURL = "SQS_QUEUE_URL";
+var sqs = new AWS.SQS();
+var s3 = new AWS.S3();
+var sns = new AWS.SNS();
+var queueURL = "https://sqs.us-west-2.amazonaws.com/075877375100/testing";
+var s3URL = "https://testing-poc-aws.s3.amazonaws.com/";
 
 var params = {
     AttributeNames: [
@@ -47,5 +44,36 @@ sqs.receiveMessage(params, function (err, data) {
         console.log("Error", err);
     } else {
         console.log("Success", data);
+    }
+});
+
+const uploadFile = () => {
+    fs.readFile('./sample.json', (err, data) => {
+        if (err) throw err;
+        const params = {
+            Bucket: 'testing-poc-aws', // pass your bucket name
+            Key: 'sample.json', // file will be saved as testBucket/contacts.csv
+            Body: JSON.stringify(data, null, 2)
+        };
+        s3.upload(params, function (s3Err, data) {
+            if (s3Err) throw s3Err
+            console.log(`File uploaded successfully at ${data.Location}`)
+        });
+    });
+};
+
+uploadFile();
+
+var params = {
+    TargetArn: 'arn:aws:sns:us-west-2:075877375100:testing',
+    Message: 'Success!!! ',
+    Subject: 'TestSNS'
+};
+
+sns.publish(params, function (err, data) {
+    if (err) {
+        console.log('Error sending a message', err);
+    } else {
+        console.log('Sent message:', data.MessageId);
     }
 });
