@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Mukesh23singh/aws-poc#readme",
   "dependencies": {
-    "aws-sdk": "^2.496.0"
+    "aws-sdk": "^2.814.0"
   }
 }
